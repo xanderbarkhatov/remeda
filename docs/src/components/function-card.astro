@@ -1,18 +1,20 @@
 ---
-import CodeBlock from '@/components/code-block.astro';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { MethodSignature } from '@/components/signature';
-import { getTags, type FunctionData } from '@/data';
-import { Badge } from '@/components/ui/badge';
-import { FunctionTag } from '@/components/function-tag';
+import CodeBlock from "@/components/code-block.astro";
+import { FunctionTag } from "@/components/function-tag";
+import Markdown from "@/components/markdown.astro";
+import { MethodSignature } from "@/components/signature";
+import { Badge } from "@/components/ui/badge";
+import { buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { getTags } from "@/lib/get-tags";
+import type { DocumentedFunction } from "@/lib/transform";
+import { GitHubLogoIcon } from "@radix-ui/react-icons";
 
 interface Props {
-  func: FunctionData;
+  func: DocumentedFunction;
 }
 
 const { func } = Astro.props;
-
-const tags = getTags(func);
 ---
 
 <Card id={func.name} className="scroll-mt-20">
@@ -24,18 +26,29 @@ const tags = getTags(func);
         {func.category}
       </Badge>
 
-      {tags.map(tag => <FunctionTag tag={tag} />)}
-    </div>
+      {getTags(func).map((tag) => <FunctionTag tag={tag} />)}
 
-    <div class="max-w-prose text-balance text-sm text-muted-foreground">
-      {func.description && <p set:html={func.description} />}
+      {
+        func.sourceUrl !== undefined && (
+          <a
+            href={func.sourceUrl}
+            target="_blank"
+            class={buttonVariants({ variant: "secondary", size: "sm" })}
+            title="View source on Github"
+          >
+            <GitHubLogoIcon />
+            <span class="sr-only">View source on GitHub</span>
+          </a>
+        )
+      }
     </div>
+    {func.description !== undefined && <Markdown markdown={func.description} />}
   </CardHeader>
 
   <CardContent className="grid gap-6 overflow-x-auto">
     {
       func.methods.map(
-        method =>
+        (method) =>
           method.signature !== undefined && (
             <div class="flex flex-col gap-2">
               {method.tag !== undefined && <p>{method.tag}</p>}
@@ -52,7 +65,7 @@ const tags = getTags(func);
                 </section>
               )}
             </div>
-          )
+          ),
       )
     }
   </CardContent>
