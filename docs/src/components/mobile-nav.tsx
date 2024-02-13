@@ -9,7 +9,7 @@ export const MobileNav = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet open={open} onOpenChange={setOpen} modal={false}>
       <SheetTrigger asChild>
         <Button variant="ghost" size="icon" className="md:hidden">
           <HamburgerMenuIcon />

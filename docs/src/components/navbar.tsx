@@ -48,7 +48,7 @@ export const Navbar = ({ onSelect }: { onSelect?: () => void }) => {
                 {functions.map(func => (
                   <li key={func.name}>
                     <a
-                      href={`#${func.name}`}
+                      href={`/docs#${func.name}`}
                       className={cn([
                         buttonVariants({ variant: 'ghost' }),
                         'text-muted-foreground',
@@ -60,7 +60,7 @@ export const Navbar = ({ onSelect }: { onSelect?: () => void }) => {
 
                       <span className="flex items-center gap-1">
                         {func.tags.map(tag => (
-                          <FunctionTag tag={tag} className="px-1.5">
+                          <FunctionTag key={tag} tag={tag} className="px-1.5">
                             {tag[0]}
                           </FunctionTag>
                         ))}
