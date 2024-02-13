@@ -1,5 +1,6 @@
 {
-  "extends": "astro/tsconfigs/strict",
+  "extends": "astro/tsconfigs/strictest",
+  "include": ["src/**/*", ".eslintrc.cjs", "*.config.js"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
@@ -8,5 +9,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "react",
     "allowArbitraryExtensions": true,
+    "plugins": [{ "name": "@astro/ts-plugin" }],
+    "verbatimModuleSyntax": true,
   },
 }
